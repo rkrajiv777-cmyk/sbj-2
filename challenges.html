@@ -2,8 +2,8 @@
         <h2 class="text-center mb-5 display-5">Real Transformations - Our 21 Days Challenge Winners</h2>
         <p class="text-center lead mb-5">See incredible results from real people like you!</p>
 
-        <!-- Dynamic Row - Admin se sab photos yahan aayengi -->
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="gallery-row">
+        <!-- Yahan sab photos admin se aayengi -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="dynamic-gallery">
             <!-- Khali rahega -->
         </div>
 
@@ -11,7 +11,7 @@
         <script>
             window.onload = function() {
                 const photos = JSON.parse(localStorage.getItem('beforeAfterPhotos') || '[]');
-                const container = document.getElementById('gallery-row');
+                const container = document.getElementById('dynamic-gallery');
 
                 if (photos.length === 0) {
                     container.innerHTML = '<div class="col-12 text-center"><p class="lead">No transformations added yet.<br>Add from <a href="admin.html">Admin Panel</a>.</p></div>';
