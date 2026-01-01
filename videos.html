@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBJ Lifestyle Hub - Workout Videos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        .navbar { background: #212529; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar (same on all pages) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">SBJ Lifestyle Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="videos.html">Videos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="challenges.html">21 Days Winners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="wellness-challenge.html">Wellness Challenge</a></li>
+                    <li class="nav-item"><a class="nav-link" href="superstar.html">Super Star</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Videos Section -->
+    <section class="container my-5 pt-5">
+        <h2 class="text-center mb-5 display-5">Workout Videos</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Beginner Workout" frameborder="0" allowfullscreen></iframe>
+                    <div class="card-body">
+                        <h5>Beginner Workout</h5>
+                        <p>Start your fitness journey here.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="21 Days Challenge" frameborder="0" allowfullscreen></iframe>
+                    <div class="card-body">
+                        <h5>21 Days Challenge Day 1</h5>
+                        <p>Daily motivation reels.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Nutrition Tips" frameborder="0" allowfullscreen></iframe>
+                    <div class="card-body">
+                        <h5>Nutrition Tips</h5>
+                        <p>SBJ style eating guide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 text-center bg-dark text-white">
+        <div class="container">
+            <p>&copy; 2026 SBJ Lifestyle Hub. All Rights Reserved. Inspired by @rajiv.kfit</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/917973359934?text=Hello%20SBJ..." target="_blank" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="60">
+    </a>
+    <style>
+        .whatsapp-float { position: fixed; bottom: 40px; right: 40px; background: #25d366; border-radius: 50%; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 1000; }
+        .whatsapp-float img { margin-top: 8px; filter: brightness(0) invert(1); }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- WhatsApp Float aur scripts ke baad, </body> se pehle -->
+    <script>
+        window.onload = function() {
+            const videos = JSON.parse(localStorage.getItem('workoutVideos') || '[]');
+            const container = document.querySelector('.row'); // ye wo row hai jisme cards aate hain
+            if (videos.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center"><p class="lead">No videos added yet.<br>Add from <a href="admin.html">Admin Panel</a></p></div>';
+                return;
+            }
+            container.innerHTML = ''; // purana content clear
+            videos.forEach(v => {
+                container.innerHTML += `
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow">
+                            <iframe width="100%" height="250" src="${v.url}" title="${v.title}" frameborder="0" allowfullscreen></iframe>
+                            <div class="card-body">
+                                <h5>${v.title}</h5>
+                                <p>Watch now and get motivated!</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+    </script>
+
+</body>
+</html>
+</body>
+</html>
