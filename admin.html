@@ -11,8 +11,8 @@
         .admin-card { background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px; }
         .navbar-brand { font-weight: 700; font-size: 1.8rem; }
         .preview-img { max-height: 200px; object-fit: cover; border-radius: 10px; margin: 10px 0; }
-        .video-item, .photo-item { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
-        .btn-remove { background: #dc3545; color: white; border: none; }
+        .item { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-remove { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -26,69 +26,65 @@
     </nav>
 
     <div class="container">
-
         <h2 class="text-center my-5 display-6">Admin Dashboard</h2>
 
-        <!-- 1. Change Hero Banner -->
+        <!-- 1. Hero Banner -->
         <div class="admin-card">
             <h4>🔹 Change Home Page Hero Banner</h4>
             <p>Current Banner:</p>
             <img id="current-banner" src="" class="preview-img w-100" alt="Current Banner">
             <div class="mt-3">
-                <label class="form-label">New Banner Image URL (Unsplash, direct link ya GitHub raw):</label>
+                <label class="form-label">New Banner Image URL:</label>
                 <input type="text" id="new-banner-url" class="form-control" placeholder="https://images.unsplash.com/...">
                 <button class="btn btn-primary mt-3" onclick="updateBanner()">Update Banner</button>
             </div>
         </div>
 
-        <!-- 2. Manage Workout Videos -->
+        <!-- 2. Workout Videos -->
         <div class="admin-card">
             <h4>📹 Manage Workout Videos</h4>
             <div id="videos-list"></div>
-
             <hr>
-
             <h5>Add New Video</h5>
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" id="video-title" class="form-control mb-2" placeholder="Video Title (e.g. Beginner Workout)">
-                </div>
-                <div class="col-md-6">
-                    <input type="text" id="video-url" class="form-control mb-2" placeholder="YouTube Embed URL (e.g. https://www.youtube.com/embed/abc123)">
-                </div>
-            </div>
+            <input type="text" id="video-title" class="form-control mb-2" placeholder="Video Title">
+            <input type="text" id="video-url" class="form-control mb-2" placeholder="YouTube Embed URL">
             <button class="btn btn-success" onclick="addVideo()">Add Video</button>
         </div>
 
-        <!-- 3. Manage Before-After Photos -->
+        <!-- 3. Before-After Photos (21 Days Winners) -->
         <div class="admin-card">
             <h4>📸 Manage Before-After Photos (21 Days Winners)</h4>
             <div id="photos-list"></div>
-
             <hr>
-
             <h5>Add New Transformation Photo</h5>
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" id="photo-url" class="form-control mb-2" placeholder="Direct Image URL (GitHub raw recommended)">
-                </div>
-                <div class="col-md-6">
-                    <input type="text" id="photo-caption" class="form-control mb-2" placeholder="Caption (e.g. 30kg Fat Loss)">
-                </div>
-            </div>
+            <input type="text" id="photo-url" class="form-control mb-2" placeholder="Direct Image URL">
+            <input type="text" id="photo-caption" class="form-control mb-2" placeholder="Caption">
             <button class="btn btn-success" onclick="addPhoto()">Add Photo</button>
         </div>
 
+        <!-- 4. Client Stories -->
+        <div class="admin-card">
+            <h4>💬 Manage Client Stories</h4>
+            <div id="stories-list"></div>
+            <hr>
+            <h5>Add New Client Story</h5>
+            <input type="text" id="story-url" class="form-control mb-2" placeholder="Image URL">
+            <input type="text" id="story-caption" class="form-control mb-2" placeholder="Caption">
+            <textarea id="story-testimonial" class="form-control mb-2" rows="3" placeholder="Testimonial text"></textarea>
+            <input type="text" id="story-name" class="form-control mb-2" placeholder="Client Name">
+            <input type="text" id="story-age" class="form-control mb-2" placeholder="Age">
+            <button class="btn btn-success" onclick="addClientStory()">Add Story</button>
+        </div>
+
         <div class="text-center my-5">
-            <p class="text-success fw-bold">✅ All changes are saved automatically in your browser.</p>
-            <p>Clear browser data to reset everything.</p>
+            <p class="text-success fw-bold fs-5">✅ All changes saved automatically!</p>
+            <p>Refresh pages to see updates.</p>
         </div>
     </div>
 
     <script>
-        // Load data from localStorage
         function loadData() {
-            // Banner
+            // Hero Banner
             const banner = localStorage.getItem('heroBanner') || 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
             document.getElementById('current-banner').src = banner;
 
@@ -98,90 +94,140 @@
             videosList.innerHTML = '<h5>Current Videos:</h5>';
             videos.forEach((v, i) => {
                 videosList.innerHTML += `
-                    <div class="video-item d-flex justify-content-between align-items-center">
+                    <div class="item">
                         <div>
                             <strong>${v.title}</strong><br>
                             <small>${v.url}</small>
                         </div>
-                        <button class="btn btn-remove btn-sm" onclick="removeVideo(${i})">Remove</button>
+                        <button class="btn-remove" onclick="removeVideo(${i})">Remove</button>
                     </div>`;
             });
 
-            // Photos
+            // Before-After Photos
             const photos = JSON.parse(localStorage.getItem('beforeAfterPhotos') || '[]');
             const photosList = document.getElementById('photos-list');
             photosList.innerHTML = '<h5>Current Photos:</h5>';
             photos.forEach((p, i) => {
                 photosList.innerHTML += `
-                    <div class="photo-item d-flex justify-content-between align-items-center">
+                    <div class="item">
                         <div>
                             <img src="${p.url}" class="preview-img" style="max-height:100px;">
                             <br><strong>${p.caption}</strong>
                         </div>
-                        <button class="btn btn-remove btn-sm" onclick="removePhoto(${i})">Remove</button>
+                        <button class="btn-remove" onclick="removePhoto(${i})">Remove</button>
+                    </div>`;
+            });
+
+            // Client Stories
+            const stories = JSON.parse(localStorage.getItem('clientStories') || '[]');
+            const storiesList = document.getElementById('stories-list');
+            storiesList.innerHTML = '<h5>Current Client Stories:</h5>';
+            stories.forEach((s, i) => {
+                storiesList.innerHTML += `
+                    <div class="item">
+                        <div>
+                            <img src="${s.url}" class="preview-img" style="max-height:100px;">
+                            <br><strong>${s.caption}</strong>
+                            <small>${s.name || 'Client'}, ${s.age || ''}</small>
+                        </div>
+                        <button class="btn-remove" onclick="removeStory(${i})">Remove</button>
                     </div>`;
             });
         }
 
-        // Update Banner
+        // Banner
         function updateBanner() {
             const url = document.getElementById('new-banner-url').value.trim();
             if (url) {
                 localStorage.setItem('heroBanner', url);
                 document.getElementById('current-banner').src = url;
-                alert('Banner updated! Refresh home page to see changes.');
+                alert('Banner updated!');
             }
         }
 
-        // Add Video
+        // Videos
         function addVideo() {
             const title = document.getElementById('video-title').value.trim();
             const url = document.getElementById('video-url').value.trim();
             if (title && url) {
                 const videos = JSON.parse(localStorage.getItem('workoutVideos') || '[]');
-                videos.push({ title, url });
+                videos.push({title, url});
                 localStorage.setItem('workoutVideos', JSON.stringify(videos));
                 loadData();
                 document.getElementById('video-title').value = '';
                 document.getElementById('video-url').value = '';
             }
         }
-
-        // Remove Video
-        function removeVideo(index) {
+        function removeVideo(i) {
             const videos = JSON.parse(localStorage.getItem('workoutVideos') || '[]');
-            videos.splice(index, 1);
+            videos.splice(i, 1);
             localStorage.setItem('workoutVideos', JSON.stringify(videos));
             loadData();
         }
 
-        // Add Photo
+        // Before-After Photos
         function addPhoto() {
             const url = document.getElementById('photo-url').value.trim();
-            const caption = document.getElementById('photo-caption').value.trim() || 'Amazing Transformation';
+            const caption = document.getElementById('photo-caption').value.trim() || 'Transformation';
             if (url) {
                 const photos = JSON.parse(localStorage.getItem('beforeAfterPhotos') || '[]');
-                photos.push({ url, caption });
+                photos.push({url, caption});
                 localStorage.setItem('beforeAfterPhotos', JSON.stringify(photos));
                 loadData();
                 document.getElementById('photo-url').value = '';
                 document.getElementById('photo-caption').value = '';
             }
         }
-
-        // Remove Photo
-        function removePhoto(index) {
+        function removePhoto(i) {
             const photos = JSON.parse(localStorage.getItem('beforeAfterPhotos') || '[]');
-            photos.splice(index, 1);
+            photos.splice(i, 1);
             localStorage.setItem('beforeAfterPhotos', JSON.stringify(photos));
             loadData();
         }
 
-        // Load on start
+        // Client Stories
+        function addClientStory() {
+            const url = document.getElementById('story-url').value.trim();
+            const caption = document.getElementById('story-caption').value.trim();
+            const testimonial = document.getElementById('story-testimonial').value.trim();
+            const name = document.getElementById('story-name').value.trim();
+            const age = document.getElementById('story-age').value.trim();
+            if (url && caption) {
+                const stories = JSON.parse(localStorage.getItem('clientStories') || '[]');
+                stories.push({url, caption, testimonial, name, age});
+                localStorage.setItem('clientStories', JSON.stringify(stories));
+                loadData();
+                document.getElementById('story-url').value = '';
+                document.getElementById('story-caption').value = '';
+                document.getElementById('story-testimonial').value = '';
+                document.getElementById('story-name').value = '';
+                document.getElementById('story-age').value = '';
+                alert('Client Story added!');
+            } else {
+                alert('Image URL aur Caption daalen!');
+            }
+        }
+        function removeStory(i) {
+            const stories = JSON.parse(localStorage.getItem('clientStories') || '[]');
+            stories.splice(i, 1);
+            localStorage.setItem('clientStories', JSON.stringify(stories));
+            loadData();
+        }
+
         window.onload = loadData;
     </script>
 
-    <!-- WhatsApp Float (optional in admin) -->
+    <!-- Password Protection -->
+    <script>
+        const password = "sbj2026"; // Change kar lena
+        let input = prompt("🔐 Admin Password:");
+        if (input !== password) {
+            alert("Wrong password!");
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <!-- WhatsApp Float -->
     <a href="https://wa.me/917973359934" target="_blank" class="whatsapp-float">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="60">
     </a>
@@ -189,26 +235,5 @@
         .whatsapp-float { position: fixed; bottom: 40px; right: 40px; background: #25d366; border-radius: 50%; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 1000; }
         .whatsapp-float img { margin-top: 8px; filter: brightness(0) invert(1); }
     </style>
-<script>
-    const password = "sbj2026"; // ye password change kar lena
-    let input = prompt("Admin Password daalen:");
-    if (input !== password) {
-        alert("Wrong password!");
-        window.location.href = "index.html";
-    }
-</script>
-<script>
-    function adminLogin() {
-        const correctPassword = "sbj2026"; // Ye password change kar lena (strong bana)
-
-        let userPassword = prompt("🔐 Admin Access\nPassword daalen:");
-
-        if (userPassword === correctPassword) {
-            window.location.href = "admin.html";
-        } else {
-            alert("❌ Galat Password! Access denied.");
-        }
-    }
-</script>
 </body>
 </html>
