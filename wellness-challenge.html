@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SBJ Lifestyle Hub - Wellness Transformation Challenge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
         .challenge-banner {
@@ -28,6 +28,10 @@
             color: #28a745;
             font-weight: bold;
         }
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -47,23 +51,137 @@
                     <li class="nav-item"><a class="nav-link active" href="wellness-challenge.html">Wellness Challenge</a></li>
                     <li class="nav-item"><a class="nav-link" href="superstar.html">Super Star</a></li>
                     <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="adminLogin(); return false;">Admin</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Banner -->
+    <!-- Hero Banner -->
     <div class="challenge-banner">
-        <h1 class="display-3 fw-bold">Wellness Transformation Challenge</h1>
+        <div>
+            <h1 class="display-3 fw-bold">Wellness Transformation Challenge</h1>
+            <p class="lead fs-3">Transform Your Health in Just 4 Weeks!</p>
+        </div>
     </div>
 
-    <!-- Content -->
+    <!-- Challenge Details -->
     <section class="container my-5">
         <div class="text-center mb-5">
-            <h2 class="display-5">Transform Your Health in Just 4 Weeks!</h2>
-            <p class="lead">Limited seats • Expert guidance • Real results</p>
+            <h2 class="display-5">Limited Seats • Expert Guidance • Real Results</h2>
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <ul class="challenge-features">
-                    <li><strong>Duration:</strong> 4 weeks with
+                    <li><strong>Duration:</strong> 4 weeks with weekly themed goals</li>
+                    <li><strong>Cost:</strong> ₹699 (incl. taxes)</li>
+                    <li><strong>Includes:</strong></li>
+                    <li>Motivational videos by expert</li>
+                    <li>Delicious & easy recipes</li>
+                    <li>Weekly nutritionist consultations (online/offline)</li>
+                    <li>Vitamin/mineral analysis + supplements advice</li>
+                    <li>Personalized workout plan</li>
+                    <li>Private WhatsApp group support</li>
+                    <li>Final Q&A session</li>
+                </ul>
+
+                <div class="text-center mt-5">
+                    <a href="https://selfcareindia.com/cart/43908634050758:1?checkout" target="_blank" 
+                       class="btn btn-success btn-lg px-5 py-4 rounded-pill shadow-lg me-3">
+                        <strong>SIGN UP NOW – LIMITED SEATS!</strong>
+                    </a>
+
+                    <a href="https://wa.me/917973359934?text=Namaste%20SBJ%20Team!%0A%0AMain%20Wellness%20Transformation%20Challenge%20join%20karna%20chahta%20hu.%0APlease%20payment%20details%20aur%20process%20bata%20dijiye.%0AThanks!" 
+                       target="_blank" 
+                       class="btn btn-outline-primary btn-lg px-5 py-4 rounded-pill border-3">
+                        <strong>💬 Chat on WhatsApp & Join Instantly</strong>
+                    </a>
+                </div>
+
+                <p class="mt-4 text-center">
+                    <span class="badge bg-danger fs-6">Hurry! Only few seats left</span>
+                    <br><small class="text-muted">Direct team se baat karen – payment, doubts sab clear!</small>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Participant Transformations (Dynamic from Admin) -->
+    <section class="container my-5">
+        <h2 class="text-center mb-5 display-5">Participant Transformations</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="wellness-gallery">
+            <!-- Photos admin se yahan load hongi -->
+        </div>
+
+        <script>
+            window.onload = function() {
+                const photos = JSON.parse(localStorage.getItem('beforeAfterPhotos') || '[]');
+                const container = document.getElementById('wellness-gallery');
+
+                if (photos.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center"><p class="lead">No transformations added yet.<br>Add from Admin Panel.</p></div>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                photos.forEach(p => {
+                    container.innerHTML += `
+                        <div class="col">
+                            <div class="card border-0 shadow">
+                                <a href="${p.url}" data-lightbox="wellness" data-title="${p.caption}">
+                                    <img src="${p.url}" class="card-img-top" alt="${p.caption}">
+                                </a>
+                                <div class="card-body text-center">
+                                    <p class="text-success fw-bold">${p.caption}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            }
+        </script>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 text-center bg-dark text-white">
+        <div class="container">
+            <p>&copy; 2026 SBJ Lifestyle Hub. All Rights Reserved. Inspired by @rajiv.kfit</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/917973359934?text=Hello%20SBJ%20Lifestyle%20Hub" target="_blank" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="60">
+    </a>
+    <style>
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 40px; 
+            right: 40px; 
+            background: #25d366; 
+            border-radius: 50%; 
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3); 
+            z-index: 1000; 
+        }
+        .whatsapp-float img { margin-top: 8px; filter: brightness(0) invert(1); }
+    </style>
+
+    <!-- Bootstrap Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Lightbox Script (for full size images) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+    <!-- Admin Login Function -->
+    <script>
+        function adminLogin() {
+            const correctPassword = "sbj2026";
+            let userPassword = prompt("🔐 Admin Access\nPassword daalen:");
+            if (userPassword === correctPassword) {
+                window.location.href = "admin.html";
+            } else {
+                alert("❌ Galat Password! Access denied.");
+            }
+        }
+    </script>
+</body>
+</html>
