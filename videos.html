@@ -35,8 +35,8 @@
     <!-- Videos Section -->
     <section class="container my-5 pt-5">
         <h2 class="text-center mb-5 display-5">Workout Videos</h2>
-        <div class="row" id="videoContainer">
-            <!-- Videos/Reels will load here from admin -->
+        <div class="row">
+            <!-- Dynamic videos will load here -->
         </div>
     </section>
 
@@ -69,7 +69,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Dynamic Loading from Admin (YouTube + Instagram Support) -->
+    <!-- Dynamic Video/Reel Loading Script -->
     <script>
         window.onload = function() {
             const videos = JSON.parse(localStorage.getItem('workoutVideos') || '[]');
@@ -88,19 +88,21 @@
                 // Instagram Reel
                 if (v.url.includes('instagram.com/reel/')) {
                     const reelCode = v.url.split('reel/')[1].split('/')[0].split('?')[0];
-                    embedCode = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/${reelCode}/" data-instgrm-version="14" style="max-width:100%; width:100%; min-height:250px; margin:0 auto;"></blockquote>`;
+                    embedCode = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/${reelCode}/" data-instgrm-version="14" style="max-width:100%; width:100%; min-height:300px; margin:0 auto;"></blockquote>`;
                 } 
-                // YouTube (admin में embed URL या normal link दोनों काम करेंगे)
+                // YouTube (normal, live, short सब सपोर्ट)
                 else {
-                    let videoId = v.url;
+                    let videoId = '';
                     if (v.url.includes('embed/')) {
                         videoId = v.url.split('embed/')[1].split('?')[0];
+                    } else if (v.url.includes('live/')) {
+                        videoId = v.url.split('live/')[1].split('?')[0];
                     } else if (v.url.includes('watch?v=')) {
                         videoId = v.url.split('v=')[1].split('&')[0];
                     } else if (v.url.includes('youtu.be/')) {
                         videoId = v.url.split('youtu.be/')[1].split('?')[0];
                     }
-                    embedCode = `<iframe width="100%" height="250" src="https://www.youtube.com/embed/${videoId}" title="${v.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    embedCode = `<iframe width="100%" height="300" src="https://www.youtube.com/embed/${videoId}" title="${v.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                 }
 
                 container.innerHTML += `
